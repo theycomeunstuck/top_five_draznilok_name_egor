@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Пример формы общения</title>
+    <link rel="stylesheet" href="templates/static/css/homepage.css">
+    <link rel="icon" type="image/x-icon" href="templates/static/images/favicon.ico">
+  </head>
+  <body>
+    <form id="my-form" method="POST" >
+      <label for="text-input">Введите трансформатор, к которому вы хотите обратиться:</label>
+      <input type="text" id="text-input" name="text-input">
+      <button type="submit" id="submit-button">Отправить</button>
+    </form>
+    <div id="result"></div>
+    <textarea id="text-area">{{ texthole|safe }}</textarea>
+    <button id="clear-button">Очистить таблицу</button>
+    <script src="templates/static/script/homepage/clear_text.js"></script>
+  </body>
+</html>

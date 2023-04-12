@@ -9,7 +9,7 @@ def arduino_port():
             arduino_port = p.device
 
 port = arduino_port()
-ser = serial.Serial(port, 9600)
+ser = serial.Serial(por t, 9600)
 print(f"Connected to Arduino on {port}")
 
 ppm = ser.readline().decode().strip()
