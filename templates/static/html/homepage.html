@@ -9,10 +9,9 @@
   <body>
     <form id="my-form" method="POST" >
       <label for="text-input">Введите трансформатор, к которому вы хотите обратиться:</label>
-      <input type="text" id="text-input" name="text-input">
+      <input type="text" id="text-input" name="text-input" required >
       <button type="submit" id="submit-button">Отправить</button>
     </form>
-<!--    <div id="result">???</div>-->
     <div class="area">{{ texthole|safe }}</div>
     <button id="clear-button">Очистить таблицу</button>
     <script src="templates/static/script/homepage/clear_text.js"></script>

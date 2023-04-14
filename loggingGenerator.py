@@ -66,4 +66,4 @@ def hourly_message(ph_level, temperature, knockouts_number, shutdowns_number, ov
     else:
         return ('| <a style="color: #74ff12">' + 'Устройство в порядке' + '</a>', 'ok')
 
-print(hourly_message(-20, 5, 20, 20, 20))
+# print(hourly_message(-20, 5, 20, 20, 20))
