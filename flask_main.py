@@ -32,15 +32,25 @@ def index():
     if len(str(minute)) == 1:
         minute = f'0{str(minute)}'
     verdict_time = f'{current_datetime.day}.{month}.{current_datetime.year} {current_datetime.hour}:{minute}'
-    list_of_transformers = ["1", "2", "3", "transformator", "test"] # условный список существующий трансформаторов !!!! Принимает только str тк new_text тоже str
+    list_of_transformers = ["000001", "PETROZAVODSK", "IRSA", '230606'] # условный список существующий трансформаторов !!!! Принимает только str тк new_text тоже str
     texthole= ""
 
     if request.method == 'POST':
         new_text = request.form['text-input']
         if new_text != "":
             if new_text in list_of_transformers:
-                ph_level, temperature, knockouts_number, shutdowns_number, overloads_number = random.randint(0, 10), random.randint(0, 10), random.randint(0, 10), random.randint(0, 10), random.randint(0, 10)
-                answer = hourly_message(ph_level, temperature, knockouts_number, shutdowns_number, overloads_number)
+                ph_level, temperature, knockouts_number, shutdowns_number, overloads_number = 30, 30, 30, 30, 3
+                hh, dd = 20, 34
+                if new_text == list_of_transformers[0]:
+                    ph_level = 5
+                    dd = 15
+                elif new_text == list_of_transformers[1]:
+                    ph_level = -5
+                    hh, dd = 9, 15
+                elif new_text == list_of_transformers[2]:
+                    ph_level, temperature = -5, 5
+                    hh, dd = 6, 8
+                answer = hourly_message(ph_level, temperature, knockouts_number, shutdowns_number, overloads_number, hh, dd)
                 texthole = f'<a>Запрос состояния трансформатора {new_text}:</a> <a style="color: cyan">{verdict_time}</a> {answer}<br>' + old_text
                 # commit db
                 text = Text(text=texthole)

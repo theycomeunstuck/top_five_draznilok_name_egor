@@ -7,7 +7,7 @@ from colorama import Fore, Back
 
 
 # Дефолтная функция вывода информации, её нужно вызывать каждый час.
-def hourly_message(ph_level, temperature, knockouts_number, shutdowns_number, overloads_number):
+def hourly_message(ph_level, temperature, knockouts_number, shutdowns_number, overloads_number, hh, dd):
     list_of_transformers = ["1", "2", "3", "transformator", "test"] # условный список существующий трансформаторов !!!! Принимает только str тк new_text тоже str
 
     # В эти два списка будут заноситься фразы из словарей, которые потом выведет код
@@ -56,19 +56,20 @@ def hourly_message(ph_level, temperature, knockouts_number, shutdowns_number, ov
 
     # Проверка, заполнился ли список с фразами - ошибками
     #Предположительный остаточный ресурс: {ddhh}
-    dd = random.randint(1, 100)
-    hh = random.randint(1, 100)
+    # dd = random.randint(1, 10)
+    # hh = random.randint(1, 10)
     if len(verdict_err):
         print("59",  ('| <a style="color: FF2A12">' + ' '.join(verdict_err) + '</a>' + ' <a style="color: #FFB413">' + ' '.join(verdict_warn) + '</a>'))
-        return ('| <br><a style="color: #FF2A12">' + ' '.join(verdict_err) + '</a>' + ' <a style="color: #FFB413">' + ' '.join(verdict_warn) + '</a>' + f'<a style="color: deeppink">Предположительный остаточный ресурс: {dd*hh} дней</a>')
+        return ('| <br><a style="color: #FF2A12">' + ' '.join(verdict_err) + '</a>' + ' <a style="color: #FFB413">' + ' '.join(verdict_warn) + '</a>' + f'<a style="color: deeppink">Предположительный остаточный ресурс: {dd*hh} дней</a><br>')
     # Проверка, заполнился ли список с фразами - варнингами
     elif len(verdict_warn):
         print("63", ('|  <a style="color: #FFB413">' + ' '.join(verdict_warn) + '</a>'))
 
-        return ('|  <br><a style="color: #FFB413">' + ' '.join(verdict_warn) + '</a>'  + f'<a style="color: deeppink">Предположительный остаточный ресурс: {dd*hh} дней</a>' )
+        return ('|  <br><a style="color: #FFB413">' + ' '.join(verdict_warn) + '</a>'  + f'<a style="color: deeppink">Предположительный остаточный ресурс: {dd*hh} дней</a><br>' )
     # Если всё ок
     else:
         print("68", ('| <a style="color: #74ff12">' + 'Устройство в порядке' + '</a>', 'ok'))
-        return ('| <br><a style="color: #74ff12">' + 'Устройство в порядке' + '</a>' + f'<a style="color: deeppink">Предположительный остаточный ресурс: {dd*hh} дней</a>')
+        return ('| <br><a style="color: #74ff12">' + 'Устройство в порядке' + '</a>' )
+    # + f'<a style="color: deeppink">Предположительный остаточный ресурс: {dd*hh} дней</a>'
 
 # print(hourly_message(-20, 5, 20, 20, 20))
