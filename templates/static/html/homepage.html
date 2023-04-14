@@ -7,6 +7,9 @@
     <link rel="icon" type="image/x-icon" href="templates/static/images/favicon.ico">
   </head>
   <body>
+  {% for msg in get_flashed_messages(False) %}
+  <div class="flash">{{msg}}</div>
+  {% endfor %}
     <form id="my-form" method="POST" >
       <label for="text-input">Введите трансформатор, к которому вы хотите обратиться:</label>
       <input type="text" id="text-input" name="text-input" required >
