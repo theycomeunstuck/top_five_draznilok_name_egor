@@ -1,5 +1,5 @@
 import datetime
-
+import random
 from flask import Flask, render_template, redirect, request, jsonify, current_app, flash
 from flask_sqlalchemy import SQLAlchemy
 from loggingGenerator import hourly_message
@@ -32,14 +32,16 @@ def index():
     if len(str(minute)) == 1:
         minute = f'0{str(minute)}'
     verdict_time = f'{current_datetime.day}.{month}.{current_datetime.year} {current_datetime.hour}:{minute}'
-    list_of_transformers = ["1","2","3","4","5","6","7","8", "12" ,"xxx", "ddd","aaa","transformer"] # условный список существующий трансформаторов !!!! Принимает только str тк new_text тоже str
+    list_of_transformers = ["1", "2", "3", "transformator", "test"] # условный список существующий трансформаторов !!!! Принимает только str тк new_text тоже str
     texthole= ""
 
     if request.method == 'POST':
         new_text = request.form['text-input']
         if new_text != "":
             if new_text in list_of_transformers:
-                texthole = f'<a>Запрос состояния трансформатора {new_text}:</a> <a style="color: cyan">{verdict_time}</a> {hourly_message(-5, 20, 20, 20, 20)[0]}<br>' + old_text
+                ph_level, temperature, knockouts_number, shutdowns_number, overloads_number = random.randint(0, 10), random.randint(0, 10), random.randint(0, 10), random.randint(0, 10), random.randint(0, 10)
+                answer = hourly_message(ph_level, temperature, knockouts_number, shutdowns_number, overloads_number)
+                texthole = f'<a>Запрос состояния трансформатора {new_text}:</a> <a style="color: cyan">{verdict_time}</a> {answer}<br>' + old_text
                 # commit db
                 text = Text(text=texthole)
                 db.session.add(text)
@@ -47,13 +49,15 @@ def index():
                 return render_template('static/html/homepage.html', texthole=texthole)
 
             else: #трансформатора не существует или мы его не нашли\
-                flash('Такого нет')
-                return render_template('static/html/homepage.html', texthole=texthole)
+
+                flash(f'Трансформатор "{new_text}" не найден в списке.')
+                return render_template('static/html/homepage.html', texthole=old_text)
         else:
             texthole = Text(text=texthole)
-    return render_template('static/html/homepage.html', texthole=texthole, notification=notification)
-    # return render_template('static/html/homepage.html', texthole=texthole)
-    # return redirect('static/html/homepage.html', texthole=texthole)
+
+
+    return render_template('static/html/homepage.html', texthole=old_text)
+
 # TODO: Сделать кнопку неактивной при пустом поле
 # TODO: если введённые данные не int возвращать ошибку | если такого трансформатора не существует
 # todo: если бутстрап пустой то можно ли потом из кода взять его и сделать типо наполненным написать сказку
@@ -62,6 +66,16 @@ def index():
 #   <div>
 #     Пример уведомления предупреждения с иконкой
 #   </div>
+
+@app.route('/clear-table', methods=['POST'])
+def clear_table():
+    # очищаем таблицу в базе данных с помощью SQLAlchemy
+    db.session.query(Text).delete()
+    db.session.commit()
+
+    # возвращаем JSON-ответ клиенту
+    return redirect('/')
+
 if __name__ == '__main__':
     app.run(debug=True)
 
