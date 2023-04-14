@@ -58,6 +58,13 @@ button[type="submit"]:hover {
 border: 1px solid #FF4343;
          background: #FF9C9C;
 }
+.alert {
+  padding-right: 20px;
+}
+
+.alert svg {
+  margin-right: 10px;
+}
 /*.flash.success {*/
 /*         border: 1px solid #21DB56;*/
 /*         background: #AEFFC5;*/
