@@ -1,13 +1,14 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const clearButton = document.getElementById('clear-button');
-  clearButton.addEventListener('click', function(event) {
-    event.preventDefault();
-    fetch('/clear-table')
-      .then(response => response.text())
-      .then(text => {
-        const textArea = document.getElementById('text-area');
-        textArea.value = '';
-      })
-      .catch(error => console.log(error));
-  });
+let clearButton = document.getElementById("clear-button");
+let area = document.querySelector(".area");
+
+clearButton.addEventListener("click", function() {
+  area.innerHTML = "";
+  clearTable();
 });
+
+function clearTable() {
+  fetch('/clear-table', {method: 'POST'})
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
+}
