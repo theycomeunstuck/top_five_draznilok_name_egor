@@ -32,21 +32,23 @@ def index():
     if len(str(minute)) == 1:
         minute = f'0{str(minute)}'
     verdict_time = f'{current_datetime.day}.{month}.{current_datetime.year} {current_datetime.hour}:{minute}'
-    list_of_transformers = [1,2,3,4,4,5,6,7,8,12,"xxx", "ddd","aaa","transformer"]
-    texthole, notification = "", ''
+    list_of_transformers = ["1","2","3","4","5","6","7","8", "12" ,"xxx", "ddd","aaa","transformer"] # условный список существующий трансформаторов !!!! Принимает только str тк new_text тоже str
+    texthole= ""
+
     if request.method == 'POST':
         new_text = request.form['text-input']
         if new_text != "":
-            if new_text == "12":
+            if new_text in list_of_transformers:
                 texthole = f'<a>Запрос состояния трансформатора {new_text}:</a> <a style="color: cyan">{verdict_time}</a> {hourly_message(-5, 20, 20, 20, 20)[0]}<br>' + old_text
                 # commit db
                 text = Text(text=texthole)
                 db.session.add(text)
                 db.session.commit()
                 return render_template('static/html/homepage.html', texthole=texthole)
+
             else: #трансформатора не существует или мы его не нашли\
-                print("46 line. transformer not exist")
-                return render_template('static/html/homepage.html', texthole=texthole, notification=notification)
+                flash('Такого нет')
+                return render_template('static/html/homepage.html', texthole=texthole)
         else:
             texthole = Text(text=texthole)
     return render_template('static/html/homepage.html', texthole=texthole, notification=notification)
